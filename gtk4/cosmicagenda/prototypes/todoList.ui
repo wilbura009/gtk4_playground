@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.10.3 -->
+<interface>
+  <requires lib="gtk" version="4.6"/>
+  <object class="GtkApplicationWindow">
+    <child>
+      <object class="GtkListBox" id="listbox">
+        <child>
+          <object class="GtkListBoxRow">
+            <child>
+              <object class="GtkCheckButton"/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

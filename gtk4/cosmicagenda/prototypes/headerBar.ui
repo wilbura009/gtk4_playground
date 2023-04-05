@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.10.3 -->
+<interface>
+  <requires lib="gtk" version="4.6"/>
+  <object class="GtkApplicationWindow">
+    <child>
+      <object class="GtkHeaderBar">
+        <child>
+          <object class="GtkButton" id="add_button">
+            <property name="icon-name">list-add-symbolic</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="remove_button">
+            <property name="icon-name">list-remove-symbolic</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkEntry" id="todo_entry">
+            <property name="placeholder-text">Task ...</property>
+          </object>
+        </child>
+        <child type="end">
+          <object class="GtkMenuButton">
+            <property name="icon-name">open-menu-symbolic</property>
+            <property name="name">primary-menu</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

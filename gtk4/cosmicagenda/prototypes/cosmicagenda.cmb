@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!DOCTYPE cambalache-project SYSTEM "cambalache-project.dtd">
+<cambalache-project version="0.10.3" target_tk="gtk-4.0">
+  <ui>
+	(1,None,"cosmicagenda.ui","cosmicagenda.ui",None,None,None,None,None,None),
+	(2,None,None,"headerBar.ui",None,None,None,None,None,None),
+	(3,None,None,"todoList.ui",None,None,None,None,None,None)
+  </ui>
+  <object>
+	(1,1,"GtkApplicationWindow",None,None,None,None,None,None),
+	(2,1,"GtkApplicationWindow",None,None,None,None,None,None),
+	(2,2,"GtkHeaderBar",None,1,None,None,None,-1),
+	(2,4,"GtkMenuButton",None,2,None,"end",None,3),
+	(2,5,"GtkButton","add_button",2,None,None,None,None),
+	(2,6,"GtkButton","remove_button",2,None,None,None,1),
+	(2,7,"GtkEntry","todo_entry",2,None,None,None,2),
+	(3,1,"GtkApplicationWindow",None,None,None,None,None,None),
+	(3,2,"GtkListBox","listbox",1,None,None,None,None),
+	(3,3,"GtkListBoxRow",None,2,None,None,None,None),
+	(3,4,"GtkCheckButton",None,3,None,None,None,None)
+  </object>
+  <object_property>
+	(2,4,"GtkMenuButton","icon-name","open-menu-symbolic",None,None,None,None,None),
+	(2,4,"GtkWidget","name","primary-menu",None,None,None,None,None),
+	(2,5,"GtkButton","icon-name","list-add-symbolic",None,None,None,None,None),
+	(2,6,"GtkButton","icon-name","list-remove-symbolic",None,None,None,None,None),
+	(2,7,"GtkEntry","placeholder-text","Enter Todo ...",None,None,None,None,None)
+  </object_property>
+</cambalache-project>
