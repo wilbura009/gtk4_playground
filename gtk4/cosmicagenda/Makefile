@@ -49,6 +49,9 @@ $(TARGET): $(OBJECTS)
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c -o $@ $< -I$(H_SRC_DIR)
 
+valgrind:
+	make && valgrind --leak-check=yes ./$(TARGET)
+
 run: build
 	./$(TARGET)
 

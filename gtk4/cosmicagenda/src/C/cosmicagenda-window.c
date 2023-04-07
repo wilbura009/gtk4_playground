@@ -22,6 +22,7 @@
 
 #include "cosmicagenda-window.h"
 #include "cJSON.h"
+#include "cJSON-file-handler.h"
 
 typedef struct _GtkListBoxRow_LList
 {
@@ -40,11 +41,12 @@ struct _CosmicagendaWindow
   GtkEntry            *todo_entry;
 
   GtkListBox          *listbox;
-  GtkListBoxRow_LList *rowlist;
+  GtkBox              *box;
   int                 item_count;
 
   FILE                *file;
-  cJSON               *json_obj;
+  char                *fbuffer;
+  cJSON               *json_array;
 };
 
 G_DEFINE_FINAL_TYPE (CosmicagendaWindow, cosmicagenda_window, GTK_TYPE_APPLICATION_WINDOW)
@@ -58,63 +60,34 @@ GtkListBoxRow *row_init (void)
   return row;
 }
 
-/*
-GtkListBoxRow_LList *list_init (void)
-{
-  GtkListBoxRow_LList *list = g_new(GtkListBoxRow_LList, 1);
-  list->head = NULL;
-
-  return list;
-}
-
-static void list_free (GtkListBoxRow_LList *list)
-{
-  g_free(list);
-}
-
-static void
-savefile (CosmicagendaWindow *self)
-{
-  const gchar *json_string = cJSON_Print(self->json_obj);
-  fputs(json_string, self->file);
-  //g_print("entry_text: %s\n, json_string: %s\n", entry_text, json_string);
-  free((void*)json_string);
-}
-*/
-
 static void
 on_window_destroy_cb (CosmicagendaWindow *self)
 {
-  //savefile(self);
-  //list_free(self->rowlist);
-  //g_free(self->listbox);
-  //free(self->json_obj);
-  //fclose(self->file);
+  // TODO: Save the file with cjson_file_write
+  cjson_file_handler_write(&self->file, self->json_array);
+  cjson_file_handler_close(&self->file);
+  cJSON_Delete(self->json_array);
+  return;
 }
 
-/*
-static void
-additem_cb (GtkButton *button,
-            CosmicagendaWindow *self)
+static int
+list_box_has_checked_items (CosmicagendaWindow *self)
 {
-  GtkEntryBuffer *entry_buffer;
-  const gchar *entry_text;
-
-  entry_buffer = gtk_entry_get_buffer(self->todo_entry);
-  entry_text = gtk_entry_buffer_get_text(entry_buffer);
-
-  GtkListBoxRow *row= row_init();
-
-  GtkCheckButton *checkbutton = GTK_CHECK_BUTTON(gtk_list_box_row_get_child(row));
-  gtk_check_button_set_label(checkbutton, entry_text);
-
-  gtk_list_box_insert(self->listbox, GTK_WIDGET(row), self->item_count++);
+  for (int i = 0; i < self->item_count; i++)
+  {
+    GtkListBoxRow *row = gtk_list_box_get_row_at_index(self->listbox, i);
+    GtkCheckButton *checkbutton = GTK_CHECK_BUTTON(gtk_list_box_row_get_child(row));
+    if (gtk_check_button_get_active(checkbutton))
+    {
+      return 1;
+    }
+  }
+  return 0;
 }
-*/
 
 static void
-removeitem_cb (GtkButton *button,
-               CosmicagendaWindow *self)
+list_box_remove_checked_item (GtkButton *button,
+    CosmicagendaWindow *self)
 {
   for (int i = 0; i < self->item_count; i++)
   {
@@ -123,26 +96,35 @@ removeitem_cb (GtkButton *button,
     if (gtk_check_button_get_active(checkbutton))
     {
       gtk_list_box_remove(self->listbox, GTK_WIDGET(row));
+      cJSON *json_item = cJSON_GetArrayItem(self->json_array, i);
+      cJSON_DeleteItemFromArray(self->json_array, i);
       self->item_count--;
     }
   }
 }
 
-static FILE
-*openfile(FILE *file)
+static void
+list_box_remove_checked_items_cb (GtkButton *button,
+    CosmicagendaWindow *self)
 {
-  file = fopen("cosmicagenda.json", "w+");
-  if (file == NULL)
-  {
-   g_printerr("openfile: Error opening file.\n");
-   return NULL;
-  }
-  return file;
+  while (list_box_has_checked_items(self))
+    list_box_remove_checked_item(button, self);
 }
 
 static void
-additem_cb (GtkButton *button,
-            CosmicagendaWindow *self)
+list_box_print_rows (CosmicagendaWindow *self) {
+  for (int i = 0; i < self->item_count; i++)
+  {
+    GtkListBoxRow *row = gtk_list_box_get_row_at_index(self->listbox, i);
+    GtkCheckButton *checkbutton = GTK_CHECK_BUTTON(gtk_list_box_row_get_child(row));
+    const gchar *label_text = gtk_check_button_get_label(checkbutton);
+    g_print("label_text: %s", label_text);
+  }
+}
+
+static void
+list_box_add_item_cb (GtkButton *button,
+    CosmicagendaWindow *self)
 {
   GtkEntryBuffer *entry_buffer;
   const gchar *entry_text;
@@ -156,6 +138,28 @@ additem_cb (GtkButton *button,
   gtk_check_button_set_label(checkbutton, entry_text);
 
   gtk_list_box_insert(self->listbox, GTK_WIDGET(row), self->item_count++);
+
+  cJSON *json_item = cJSON_CreateObject();
+  cJSON_AddStringToObject(json_item, "item", entry_text);
+  cJSON_AddItemToArray(self->json_array, json_item);
+}
+
+static void
+list_box_restore_state(CosmicagendaWindow *self)
+{
+  GtkEntryBuffer *entry_buffer;
+  const gchar *entry_text;
+
+  for (int i = 0; i < cJSON_GetArraySize(self->json_array); i++)
+  {
+    cJSON *json_item = cJSON_GetArrayItem(self->json_array, i);
+    cJSON *json_item_text = cJSON_GetObjectItemCaseSensitive(json_item, "item");
+    entry_text = json_item_text->valuestring;
+    GtkListBoxRow *row= row_init();
+    GtkCheckButton *checkbutton = GTK_CHECK_BUTTON(gtk_list_box_row_get_child(row));
+    gtk_check_button_set_label(checkbutton, entry_text);
+    gtk_list_box_insert(self->listbox, GTK_WIDGET(row), self->item_count++);
+  }
 }
 
 static void
@@ -175,40 +179,25 @@ cosmicagenda_window_init (CosmicagendaWindow *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  self->listbox = GTK_LIST_BOX(gtk_list_box_new());
-  gtk_window_set_child (GTK_WINDOW (self), GTK_WIDGET(self->listbox));
-
-  // Connect the add button
-  g_signal_connect (self->add_button, "clicked", G_CALLBACK (additem_cb), self);
-
-  // Connect the remove button
-  g_signal_connect (self->remove_button, "clicked", G_CALLBACK (removeitem_cb), self);
-
-  // Free the rowlist
-  g_signal_connect (self, "destroy", G_CALLBACK (on_window_destroy_cb), NULL);
-
-
-  /*
-  // Open the file
-  self->file = openfile(self->file);
-
   // Create the JSON object
-  self->json_obj = cJSON_CreateObject();  
+  self->json_array = cJSON_CreateArray();  
 
-  // Create the listbox
+  // Prepares a file for writing
+  cjson_file_handler_init(&self->file, &self->fbuffer, &self->json_array);
+
+   // Create the listbox
   self->listbox = GTK_LIST_BOX(gtk_list_box_new());
   gtk_window_set_child (GTK_WINDOW (self), GTK_WIDGET(self->listbox));
 
-  // Create the rowlist
-  self->rowlist = list_init();
+  // Load the previous state from the json_array
+  list_box_restore_state(self);
 
   // Connect the add button
-  g_signal_connect (self->add_button, "clicked", G_CALLBACK (additem_cb), self);
+  g_signal_connect (self->add_button, "clicked", G_CALLBACK (list_box_add_item_cb), self);
 
   // Connect the remove button
-  g_signal_connect (self->remove_button, "clicked", G_CALLBACK (removeitem_cb), self);
+  g_signal_connect (self->remove_button, "clicked", G_CALLBACK (list_box_remove_checked_items_cb), self);
 
   // Free the rowlist
   g_signal_connect (self, "destroy", G_CALLBACK (on_window_destroy_cb), NULL);
-  */
 }

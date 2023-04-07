@@ -54,7 +54,7 @@ cosmicagenda_application_activate (GApplication *app)
     window = g_object_new (COSMICAGENDA_TYPE_WINDOW,
                            "application", app,
                            NULL);
-
+  gtk_window_set_title (window, "Cosmic Agenda");
   gtk_window_present (window);
 }
 

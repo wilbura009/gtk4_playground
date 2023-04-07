@@ -24,6 +24,8 @@
 	(2,4,"GtkWidget","name","primary-menu",None,None,None,None,None),
 	(2,5,"GtkButton","icon-name","list-add-symbolic",None,None,None,None,None),
 	(2,6,"GtkButton","icon-name","list-remove-symbolic",None,None,None,None,None),
-	(2,7,"GtkEntry","placeholder-text","Enter Todo ...",None,None,None,None,None)
+	(2,7,"GtkEntry","placeholder-text","Enter Todo ...",None,None,None,None,None),
+	(3,1,"GtkWidget","halign","center",None,None,None,None,None),
+	(3,1,"GtkWidget","valign","baseline",None,None,None,None,None)
   </object_property>
 </cambalache-project>
