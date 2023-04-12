@@ -24,12 +24,6 @@
 #include "cJSON.h"
 #include "cJSON-file-handler.h"
 
-typedef struct _GtkListBoxRow_LList
-{
-  GtkListBoxRow *head;
-} GtkListBoxRow_LList;
-
-
 struct _CosmicagendaWindow
 {
   GtkApplicationWindow  parent_instance;
@@ -50,6 +44,15 @@ struct _CosmicagendaWindow
 };
 
 G_DEFINE_FINAL_TYPE (CosmicagendaWindow, cosmicagenda_window, GTK_TYPE_APPLICATION_WINDOW)
+
+GtkListBoxRow *row_init (void);
+static void on_window_destroy_cb (CosmicagendaWindow *self);
+static int list_box_has_checked_items (CosmicagendaWindow *self);
+static void list_box_remove_checked_item (GtkButton *button, CosmicagendaWindow *self);
+static void list_box_remove_checked_items_cb (GtkButton *button, CosmicagendaWindow *self);
+static void list_box_print_rows (CosmicagendaWindow *self);
+static void list_box_add_item_cb (GtkButton *button, CosmicagendaWindow *self);
+static void list_box_restore_state(CosmicagendaWindow *self);
 
 GtkListBoxRow *row_init (void)
 {
