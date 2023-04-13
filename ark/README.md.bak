@@ -1,0 +1,14 @@
+# gtk4_playground
+
+This repo holds various gtk4 projects.
+
+## Projects
+
+- geenotes
+    - Has examples for how to implement the menu bar
+
+## Notes from the process
+
+- Webkit wouldn't work on gtk4
+    - https://webkit.org/getting-started/
+

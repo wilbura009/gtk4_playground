@@ -1,14 +1,15 @@
-# gtk4_playground
+---
+author:   wb
+creator:  update-rm.sh
+date:     04122023 - 19:10:35
+---
 
-This is where I learn gtk4
+# gtk4 playground
+
+This is a playground for gtk4. It is a collection of projects, examples, and information about developing gtk4 applications.
 
 ## Projects
 
-- geenotes
-    - Has examples for how to implement the menu bar
-
-## Notes
-
-- Webkit wouldn't work on gtk4
-    - https://webkit.org/getting-started/
-
+| Name | Description |
+| ---- | ----------- |
+| [cosmicagenda](proj/cosmicagenda/README.md) | A desktop application for tracking todo items. |
