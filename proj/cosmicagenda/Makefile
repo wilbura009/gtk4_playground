@@ -65,6 +65,7 @@ bear:
 clean:
 	rm -f $(OBJECTS)
 	rm -f $(BUILT_SRC)
+	rm -f $(TARGET)
 
 # Define a target to clean up generated files
 clean-all:
