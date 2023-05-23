@@ -7,7 +7,7 @@ description: A desktop application for tracking todo items.
 
 A simple gtk4 application to track your todo list.
 
-[preview](docs/img/preview.png)
+![preview](docs/img/preview.png)
 
 ## Installation
 
@@ -33,11 +33,11 @@ Execute
 
 Add Items
 
-[add](docs/img/add.gif)
+![add](docs/img/add.gif)
 
 Remove Items
  
-[remove](docs/img/remove.gif)
+![remove](docs/img/remove.gif)
 
 ## Additional Tools
 
