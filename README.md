@@ -1,7 +1,7 @@
 ---
 author:   wb
 creator:  update-rm.sh
-date:     04122023 - 19:10:35
+date:     05232023 - 17:30:49
 ---
 
 # gtk4 playground
@@ -10,6 +10,6 @@ This is a playground for gtk4. It is a collection of projects, examples, and inf
 
 ## Projects
 
-| Name | Description |
-| ---- | ----------- |
-| [cosmicagenda](proj/cosmicagenda/README.md) | A desktop application for tracking todo items. |
+| Name | Description | Preview |
+| ---- | ----------- | ------- |
+| [cosmicagenda](proj/cosmicagenda/README.md) | A desktop application for tracking todo items. | [cosmicagenda](proj/cosmicagenda/docs/img/preview.png) | 
