@@ -45,7 +45,7 @@ add_project_table(){
         # Get the name of the project from the yaml front matter with grep
         name=$(echo "$front_matter" | grep -oP '(?<=name: ).*')
         description=$(echo "$front_matter" | grep -oP '(?<=description: ).*')
-        echo -e "| [$name]($readme) | $description | [$name]($preview) | " >> $ROOT_README
+        echo -e "| [$name]($readme) | $description | ![$name]($preview) | " >> $ROOT_README
       fi
     done
   done
