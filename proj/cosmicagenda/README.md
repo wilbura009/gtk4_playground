@@ -31,13 +31,10 @@ Execute
 
 ## Features
 
-Add Items
-
-![add](docs/img/add.gif)
-
-Remove Items
- 
-![remove](docs/img/remove.gif)
+| Feature | Preview |
+| ---     | :---:     |
+| Add Items | <img src="docs/img/add.gif" alt="add" width="75%"/> |
+| Remove Items |  <img src="docs/img/remove.gif" alt="remove" width="75%"/> |
 
 ## Additional Tools
 
