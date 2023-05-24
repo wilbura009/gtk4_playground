@@ -17,7 +17,7 @@ date:     $TIME_STAMP
 
 # gtk4 playground
 
-This is a playground for gtk4. It is a collection of projects, examples, and information about developing gtk4 applications.
+This is a collection of projects, examples, and information about developing gtk4 applications.
 
 ## Projects
 " > $ROOT_README
