@@ -1,1 +1,0 @@
-sh/update-rm.sh

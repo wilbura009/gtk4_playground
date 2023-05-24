@@ -1,7 +1,7 @@
 ---
 author:   wb
-creator:  update-rm.sh
-date:     05232023 - 17:34:33
+creator:  sh/update-rm.sh
+date:     05232023 - 18:58:56
 ---
 
 # gtk4 playground
