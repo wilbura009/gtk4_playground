@@ -1,7 +1,7 @@
 ---
 author:   wb
 creator:  sh/update-rm.sh
-date:     05312023 - 15:54:21
+date:     06032023 - 00:59:07
 ---
 
 # gtk4 playground
@@ -12,4 +12,5 @@ This is a collection of projects, examples, and information about developing gtk
 
 | Name | Description | Preview |
 | ---- | ----------- | ------- |
-| [cosmicagenda](proj/cosmicagenda/README.md) | A desktop application for tracking todo items. | ![cosmicagenda](proj/cosmicagenda/docs/img/preview.png) | 
+| [viewmd](proj/viewmd/README.md) | A desktop application to live-preview md files. | ![viewmd]() | 
+| [cosmicagenda](proj/cosmicagenda/README.md) | A desktop application for tracking todo items. | ![cosmicagenda](cosmicagenda/docs/img/preview.png) | 

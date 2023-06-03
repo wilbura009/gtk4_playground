@@ -30,24 +30,22 @@ add_project_table(){
   # Create a list of all the preview.png files in the proj directory
   proj_previews=$(find proj -name "preview.png")
 
-
   echo -e "\
 | Name | Description | Preview |
 | ---- | ----------- | ------- |" >> $ROOT_README
 
   for readme in $proj_readmes; do
-    for preview in $proj_previews; do
-      if [ -n "$readme" ]; then
+    if [ -n "$readme" ]; then
 
-        # Get the name of the project from the yaml front matter with sed
-        front_matter=$(sed -n '/^---$/,/^---$/p' "$readme")
+      # Get the name of the project from the yaml front matter with sed
+      front_matter=$(sed -n '/^---$/,/^---$/p' "$readme")
 
-        # Get the name of the project from the yaml front matter with grep
-        name=$(echo "$front_matter" | grep -oP '(?<=name: ).*')
-        description=$(echo "$front_matter" | grep -oP '(?<=description: ).*')
-        echo -e "| [$name]($readme) | $description | ![$name]($preview) | " >> $ROOT_README
-      fi
-    done
+      # Get the name of the project from the yaml front matter with grep
+      name=$(echo "$front_matter" | grep -oP '(?<=name: ).*')
+      description=$(echo "$front_matter" | grep -oP '(?<=description: ).*')
+      preview=$(echo "$proj_previews" | grep -oP "(?<=proj/)$name.*")
+      echo -e "| [$name]($readme) | $description | ![$name]($preview) | " >> $ROOT_README
+    fi
   done
 }
 
