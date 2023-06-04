@@ -49,7 +49,7 @@ add_project_table(){
         preview="🚧";
         echo -e "| [$name]($readme) | $description | $preview | " >> $ROOT_README
       else
-        echo -e "| [$name]($readme) | $description | ![$name]($preview) | " >> $ROOT_README
+        echo -e "| [$name]($readme) | $description | ![$name](proj/$preview) | " >> $ROOT_README
       fi
     fi
   done
