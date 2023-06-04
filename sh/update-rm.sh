@@ -45,9 +45,12 @@ add_project_table(){
       description=$(echo "$front_matter" | grep -oP '(?<=description: ).*')
       preview=$(echo "$proj_previews" | grep -oP "(?<=proj/)$name.*")
 
-      if [ -z "$preview" ]; then preview="🚧"; fi
-
-      echo -e "| [$name]($readme) | $description | ![$name]($preview) | " >> $ROOT_README
+      if [ -z "$preview" ]; then
+        preview="🚧";
+        echo -e "| [$name]($readme) | $description | $preview | " >> $ROOT_README
+      else
+        echo -e "| [$name]($readme) | $description | ![$name]($preview) | " >> $ROOT_README
+      fi
     fi
   done
 }
