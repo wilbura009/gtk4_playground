@@ -19,12 +19,12 @@
           </object>
         </child>
         <child>
-          <object class="GtkTextView" id="text_view">
-            <property name="margin-bottom">10</property>
-            <property name="margin-end">10</property>
-            <property name="margin-start">10</property>
-            <property name="margin-top">10</property>
-            <property name="vexpand">True</property>
+          <object class="GtkLabel" id="label">
+            <property name="label">Hello, World!</property>
+            <property name="vexpand">true</property>
+            <style>
+              <class name="title-1"/>
+            </style>
           </object>
         </child>
       </object>

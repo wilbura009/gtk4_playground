@@ -28,7 +28,7 @@ struct _ViewmdWindow
 
 	/* Template widgets */
 	GtkHeaderBar        *header_bar;
-	GtkLabel            *label;
+  GtkTextView         *text_view;
 };
 
 G_DEFINE_FINAL_TYPE (ViewmdWindow, viewmd_window, ADW_TYPE_APPLICATION_WINDOW)
@@ -40,11 +40,15 @@ viewmd_window_class_init (ViewmdWindowClass *klass)
 
 	gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/viewmd/viewmd-window.ui");
 	gtk_widget_class_bind_template_child (widget_class, ViewmdWindow, header_bar);
-	gtk_widget_class_bind_template_child (widget_class, ViewmdWindow, label);
+  gtk_widget_class_bind_template_child (widget_class, ViewmdWindow, text_view);
 }
 
 static void
 viewmd_window_init (ViewmdWindow *self)
 {
 	gtk_widget_init_template (GTK_WIDGET (self));
+
+  // Get the text buffer
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer (self->text_view);
+  gtk_text_buffer_set_text (buffer, "Hello, World!", -1);
 }

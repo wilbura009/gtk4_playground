@@ -48,7 +48,7 @@ $(TARGET): $(OBJECTS)
 	$(CC) -o $(@F) $(OBJECTS) $(LIBS)
 
 run: $(TARGET)
-	./$(TARGET)
+	./$(TARGET) &
 
 build: bear
 
