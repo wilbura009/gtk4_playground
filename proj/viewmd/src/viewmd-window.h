@@ -14,18 +14,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 #pragma once
 
-#include <adwaita.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
 #define VIEWMD_TYPE_WINDOW (viewmd_window_get_type())
 
-G_DECLARE_FINAL_TYPE (ViewmdWindow, viewmd_window, VIEWMD, WINDOW, AdwApplicationWindow)
+G_DECLARE_FINAL_TYPE (ViewmdWindow, viewmd_window, VIEWMD, WINDOW, GtkApplicationWindow)
 
 G_END_DECLS

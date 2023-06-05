@@ -56,4 +56,3 @@ greet("World")
 This is a footnote[^1].
 
 [^1]: This is the footnote text.
-

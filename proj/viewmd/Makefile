@@ -7,8 +7,8 @@ CC = gcc
 
 PKGCONFIG = $(shell which pkg-config)
 
-CFLAGS = $(shell $(PKGCONFIG) --cflags gtk4 libadwaita-1)
-LIBS = $(shell $(PKGCONFIG) --libs gtk4 libadwaita-1)
+CFLAGS = $(shell $(PKGCONFIG) --cflags gtk+-3.0 webkit2gtk-4.1)
+LIBS = $(shell $(PKGCONFIG) --libs gtk+-3.0 webkit2gtk-4.1)
 GLIB_COMPILE_RESOURCES = $(shell $(PKGCONFIG) --variable=glib_compile_resources gio-2.0)
 
 # Define the source and header directories
