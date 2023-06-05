@@ -6,16 +6,20 @@
   <requires lib="libadwaita" version="1.1"/>
   <object class="AdwApplicationWindow">
     <child>
-      <object class="GtkBox">
-        <child>
-          <object class="GtkTextView" id="text_view">
-            <property name="margin-bottom">10</property>
-            <property name="margin-end">10</property>
-            <property name="margin-start">10</property>
-            <property name="margin-top">10</property>
-            <property name="vexpand">True</property>
+      <object class="GtkScrolledWindow">
+        <property name="child">
+          <object class="GtkBox">
+            <child>
+              <object class="GtkTextView" id="text_view">
+                <property name="margin-bottom">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-start">10</property>
+                <property name="margin-top">10</property>
+                <property name="vexpand">True</property>
+              </object>
+            </child>
           </object>
-        </child>
+        </property>
       </object>
     </child>
   </object>

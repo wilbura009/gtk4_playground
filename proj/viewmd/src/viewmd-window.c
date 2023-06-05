@@ -21,6 +21,7 @@
 //#include "config.h"
 
 #include "viewmd-window.h"
+#include <stdio.h>
 
 struct _ViewmdWindow
 {
@@ -48,7 +49,19 @@ viewmd_window_init (ViewmdWindow *self)
 {
 	gtk_widget_init_template (GTK_WIDGET (self));
 
+  // Read the file contents into a string
+  gchar *path_md = "./src/input/ipsum.md";
+  GFile *file = g_file_new_for_path (path_md);
+  gchar *contents;
+  g_file_load_contents (file, NULL, &contents, NULL, NULL, NULL);
+  //printf("%s\n", contents); 
+
   // Get the text buffer
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (self->text_view);
-  gtk_text_buffer_set_text (buffer, "Hello, World!", -1);
+  // Set the text view to be uneditable
+  gtk_text_view_set_editable (self->text_view, FALSE);
+  gtk_text_view_set_cursor_visible (self->text_view, FALSE);
+  // Set the text buffer's text
+  gtk_text_buffer_set_text (buffer, contents, -1);
+  //gtk_text_buffer_set_text (buffer, "Hello, World!", -1);
 }
