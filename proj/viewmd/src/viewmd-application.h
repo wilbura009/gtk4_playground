@@ -1,7 +1,7 @@
-/* viewmd-window.h
+/* viewmd-application.h
  *
  * Copyright 2023 wb
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -22,10 +22,11 @@
 
 G_BEGIN_DECLS
 
-#define VIEWMD_TYPE_WINDOW (viewmd_window_get_type())
+#define VIEWMD_TYPE_APPLICATION (viewmd_application_get_type())
 
-G_DECLARE_FINAL_TYPE (ViewmdWindow, viewmd_window, VIEWMD, WINDOW, GtkApplicationWindow)
+G_DECLARE_FINAL_TYPE (ViewmdApplication, viewmd_application, VIEWMD, APPLICATION, GtkApplication)
 
-void viewmd_window_open(ViewmdWindow *win, GFile *file);
+ViewmdApplication *viewmd_application_new (const char *application_id,
+                                           GApplicationFlags  flags);
 
 G_END_DECLS

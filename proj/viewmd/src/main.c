@@ -19,20 +19,17 @@
 #include <glib/gi18n.h>
 
 //#include "viewmd-config.h"
-#include "viewmd-window.h"
+#include "viewmd-application.h"
+//#include "viewmd-window.h"
 
+/*
 static void
 on_activate (GtkApplication *app)
 {
 	GtkWindow *window;
 
-	/* It's good practice to check your parameters at the beginning of the
-	 * function. It helps catch errors early and in development instead of
-	 * by your users.
-	 */
 	g_assert (GTK_IS_APPLICATION (app));
 
-	/* Get the current window or create one if necessary. */
 	window = gtk_application_get_active_window (app);
 	if (window == NULL)
 		window = g_object_new (VIEWMD_TYPE_WINDOW,
@@ -41,7 +38,6 @@ on_activate (GtkApplication *app)
 		                       "default-height", 300,
 		                       NULL);
 
-	/* Ask the window manager/compositor to present the window. */
 	gtk_window_present (window);
 }
 
@@ -52,16 +48,28 @@ main (int   argc,
 	g_autoptr(GtkApplication) app = NULL;
 	int ret;
 
-  /*
-	// Set up gettext translations
-	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	textdomain (GETTEXT_PACKAGE);
-  */
-
 	app = gtk_application_new ("org.gnome.viewmd", G_APPLICATION_FLAGS_NONE);
 
 	g_signal_connect (app, "activate", G_CALLBACK (on_activate), NULL);
+	ret = g_application_run (G_APPLICATION (app), argc, argv);
+
+	return ret;
+}
+*/
+
+int
+main (int   argc,
+      char *argv[])
+{
+	g_autoptr(ViewmdApplication) app = NULL;
+	int ret;
+/*
+	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
+*/
+
+	app = viewmd_application_new ("org.gnome.viewmd", G_APPLICATION_HANDLES_OPEN);
 	ret = g_application_run (G_APPLICATION (app), argc, argv);
 
 	return ret;

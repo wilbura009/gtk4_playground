@@ -45,17 +45,64 @@ gchar *convert_md_to_html (gchar *path_md)
   return html_content;
 }
 
+// Connect to the 'changed' signal of the file monitor
+static void
+file_changed (GFileMonitor *monitor, GFile *file, GFile *other_file, GFileMonitorEvent event_type, gpointer user_data)
+{
+  if (event_type == G_FILE_MONITOR_EVENT_CHANGED)
+  {
+    gchar *path = g_file_get_path(file);
+    // Convert the markdown to html
+    gchar *html_content;
+    html_content = convert_md_to_html (g_file_get_path (file));
+    // Load the html content into the webview but first remove the old webview
+    gtk_container_remove(GTK_CONTAINER(user_data), gtk_bin_get_child(GTK_BIN(user_data)));
+    WebKitWebView *webView = WEBKIT_WEB_VIEW (webkit_web_view_new ());
+    webkit_web_view_load_html (webView, html_content, NULL);
+    gtk_container_add(GTK_CONTAINER(user_data), GTK_WIDGET(webView));
+    gtk_widget_show_all (GTK_WIDGET (user_data));
+    g_free(path);
+    g_free(html_content);
+    //g_print("G_FILE_MONITOR_EVENT_CHANGED.event_type: %d\n", event_type);
+  }
+}
+
+void
+viewmd_window_open(ViewmdWindow *win, GFile *file)
+{
+  // Print the file path
+  gchar *path = g_file_get_path (file);
+  // Verify that the file exists
+  if (g_file_query_exists (file, NULL))
+  {
+    // Convert the markdown to html
+    gchar *html_content;
+    html_content = convert_md_to_html (path);
+
+    // Load the html content into the webview
+    WebKitWebView *webView = WEBKIT_WEB_VIEW (webkit_web_view_new ());
+    webkit_web_view_load_html (webView, html_content, NULL);
+    gtk_container_add(GTK_CONTAINER(win), GTK_WIDGET(webView));
+
+    gtk_widget_show_all (GTK_WIDGET (win));
+
+    // Watch the file for changes
+    GFileMonitor *monitor;
+    monitor = g_file_monitor_file (file, G_FILE_MONITOR_NONE, NULL, NULL);
+    g_signal_connect (monitor, "changed", G_CALLBACK (file_changed), win);
+    printf ("Watching file: %s\n", path);
+  }
+  else
+  {
+    g_print ("[ERROR]: File '%s' does not exist\n", path);
+    g_free (path);
+    g_object_unref (file);
+    exit (1);
+  }
+}
+
 static void
 viewmd_window_init (ViewmdWindow *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
-  
-  gchar *html_content;
-  html_content = convert_md_to_html ("./src/input/ipsum.md");
-
-  WebKitWebView *webView = WEBKIT_WEB_VIEW (webkit_web_view_new ());
-  webkit_web_view_load_html (webView, html_content, NULL);
-  gtk_container_add(GTK_CONTAINER(self), GTK_WIDGET(webView));
-
-  gtk_widget_show_all (GTK_WIDGET (self));
 }

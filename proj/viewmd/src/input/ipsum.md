@@ -1,11 +1,11 @@
-# Lorem Ipsum Markdown Example
+# Render Test
 
 ## Headings
 
-### H1
+# H1
 This is a H1 heading.
 
-#### H2
+## H2
 This is a H2 heading.
 
 ## Lists
