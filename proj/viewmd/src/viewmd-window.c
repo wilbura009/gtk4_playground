@@ -36,7 +36,6 @@ viewmd_window_class_init (ViewmdWindowClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class, "/org/gnome/viewmd/viewmd-window.ui");
 }
 
-// Convert the markdown to html
 gchar *convert_md_to_html (gchar *path_md)
 {
   //pandoc -s --highlight=zenburn -c src/css/webkit.css src/input/ipsum.md -t html -o gtk.html;
@@ -55,7 +54,6 @@ file_changed (GFileMonitor *monitor, GFile *file, GFile *other_file, GFileMonito
   if (event_type == G_FILE_MONITOR_EVENT_CHANGED)
   {
     gchar *path = g_file_get_path(file);
-    // Convert the markdown to html
     gchar *html_content;
     html_content = convert_md_to_html (g_file_get_path (file));
 
@@ -65,7 +63,8 @@ file_changed (GFileMonitor *monitor, GFile *file, GFile *other_file, GFileMonito
     WebKitUserContentManager *manager = webkit_user_content_manager_new ();
     WebKitUserStyleSheet *style_sheet;
 
-    GFile *file_css = g_file_new_for_path ("./src/css/webkit.css");
+    gchar *path_css = g_strdup_printf ("%s/.config/viewmd/css/webkit.css", g_get_home_dir ());
+    GFile *file_css = g_file_new_for_path (path_css);
     gchar *css_content;
     g_file_load_contents (file_css, NULL, &css_content, NULL, NULL, NULL);
 
@@ -88,20 +87,19 @@ file_changed (GFileMonitor *monitor, GFile *file, GFile *other_file, GFileMonito
 void
 viewmd_window_open(ViewmdWindow *win, GFile *file)
 {
-  // Print the file path
   gchar *path = g_file_get_path (file);
-  // Verify that the file exists
+
   if (g_file_query_exists (file, NULL))
   {
-    // Convert the markdown to html
     gchar *html_content;
     html_content = convert_md_to_html (path);
 
-    // Load the html content into the webview
     WebKitUserContentManager *manager = webkit_user_content_manager_new ();
     WebKitUserStyleSheet *style_sheet;
 
-    GFile *file_css = g_file_new_for_path ("./src/css/webkit.css");
+    // Get the path to the .css file located in the user's home directory
+    gchar *path_css = g_strdup_printf ("%s/.config/viewmd/css/webkit.css", g_get_home_dir ());
+    GFile *file_css = g_file_new_for_path (path_css);
     gchar *css_content;
     g_file_load_contents (file_css, NULL, &css_content, NULL, NULL, NULL);
 
