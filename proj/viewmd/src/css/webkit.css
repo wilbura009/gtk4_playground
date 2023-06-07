@@ -51,16 +51,22 @@
   --tocfg: var(--dark3);
   --borders: var(--light3);
 
-  --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+  --color-background: #202020;
+  --color-foreground: #d0d0d0;
+  --source-code-background: #303030;
+
+  --font-family: Segoe UI,Helvetica,Arial,sans-serif;
+  --code-font-family: "SFMono-Regular",Menlo,Consolas,Monaco,Liberation Mono,Lucida Console,monospace;
 }
 
+
 body {
-  font-family: "Ubuntu", sans-serif;
+  margin: 25px;
+  font-family: var(--font-family);
   font-size: 16px;
   line-height: 1.5;
   color:  var(--text);
-  background-color: var(--color-code-background);
+  background-color: var(--color-background);
 }
 
 h1 {
@@ -87,7 +93,8 @@ p {
 }
 
 code {
-  font-family: "Consolas",monospace;
+  font-family: var(--code-font-family);
+  background: var(--color-code-background);
   font-size: 14px;
   padding: 4px;
   border-radius: 4px;
