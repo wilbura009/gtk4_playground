@@ -19,6 +19,7 @@
 //#include "viewmd-config.h"
 #include "viewmd-window.h"
 #include "webkit2/webkit2.h"
+#include "styles-css.c"
 
 struct _ViewmdWindow
 {
@@ -38,8 +39,10 @@ viewmd_window_class_init (ViewmdWindowClass *klass)
 // Convert the markdown to html
 gchar *convert_md_to_html (gchar *path_md)
 {
+  //pandoc -s --highlight=zenburn -c src/css/webkit.css src/input/ipsum.md -t html -o gtk.html;
   gchar *html_content;
-  gchar *command = g_strdup_printf ("pandoc %s -t html", path_md);
+  gchar *highlighting = g_strdup_printf ("--highlight-style=%s", "zenburn");
+  gchar *command = g_strdup_printf ("pandoc -s %s %s -t html",highlighting, path_md);
   g_spawn_command_line_sync (command, &html_content, NULL, NULL, NULL);
   g_free (command);
   return html_content;
@@ -80,7 +83,20 @@ viewmd_window_open(ViewmdWindow *win, GFile *file)
     html_content = convert_md_to_html (path);
 
     // Load the html content into the webview
-    WebKitWebView *webView = WEBKIT_WEB_VIEW (webkit_web_view_new ());
+    WebKitUserContentManager *manager = webkit_user_content_manager_new ();
+    WebKitUserStyleSheet *style_sheet;
+
+    GFile *file_css = g_file_new_for_path ("./src/css/webkit.css");
+    gchar *css_content;
+    g_file_load_contents (file_css, NULL, &css_content, NULL, NULL, NULL);
+
+    style_sheet = webkit_user_style_sheet_new (css_content, WEBKIT_USER_CONTENT_INJECT_ALL_FRAMES, WEBKIT_USER_STYLE_LEVEL_USER, NULL, NULL);
+
+    webkit_user_content_manager_add_style_sheet (manager, style_sheet);
+
+    // Load the html content into the webview
+    WebKitWebView *webView = WEBKIT_WEB_VIEW (webkit_web_view_new_with_user_content_manager (manager));
+    webkit_settings_set_enable_developer_extras(webkit_web_view_get_settings(WEBKIT_WEB_VIEW(webView)), TRUE);
     webkit_web_view_load_html (webView, html_content, NULL);
     gtk_container_add(GTK_CONTAINER(win), GTK_WIDGET(webView));
 
