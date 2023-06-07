@@ -19,7 +19,6 @@
 //#include "viewmd-config.h"
 #include "viewmd-window.h"
 #include "webkit2/webkit2.h"
-#include "styles-css.c"
 
 struct _ViewmdWindow
 {
